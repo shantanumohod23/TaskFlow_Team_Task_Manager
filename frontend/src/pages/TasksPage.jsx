@@ -23,8 +23,8 @@ export default function TasksPage() {
 
     Promise.all([api.get(tasksEndpoint), api.get('/projects')])
       .then(([tasksRes, projectsRes]) => {
-        setTasks(tasksRes.data);
-        setProjects(projectsRes.data);
+        setTasks(Array.isArray(tasksRes.data) ? tasksRes.data : []);
+        setProjects(Array.isArray(projectsRes.data) ? projectsRes.data : []);
       })
       .catch((err) => {
         toast.error(err.response?.data?.message || 'Failed to load tasks');
@@ -44,7 +44,7 @@ export default function TasksPage() {
 
   const handleTaskCreated = (task) => setTasks((prev) => [task, ...prev]);
 
-  const filteredTasks = tasks.filter((t) => {
+  const filteredTasks = (Array.isArray(tasks) ? tasks : []).filter((t) => {
     if (filters.status && t.status !== filters.status) return false;
     if (filters.priority && t.priority !== filters.priority) return false;
     if (filters.projectId && t.project?._id !== filters.projectId) return false;
@@ -53,9 +53,9 @@ export default function TasksPage() {
 
   // For members: group by status for a cleaner view
   const myTaskGroups = !isAdmin ? {
-    todo: filteredTasks.filter((t) => t.status === 'todo'),
-    'in-progress': filteredTasks.filter((t) => t.status === 'in-progress'),
-    done: filteredTasks.filter((t) => t.status === 'done'),
+    todo: (Array.isArray(filteredTasks) ? filteredTasks : []).filter((t) => t.status === 'todo'),
+    'in-progress': (Array.isArray(filteredTasks) ? filteredTasks : []).filter((t) => t.status === 'in-progress'),
+    done: (Array.isArray(filteredTasks) ? filteredTasks : []).filter((t) => t.status === 'done'),
   } : null;
 
   return (
