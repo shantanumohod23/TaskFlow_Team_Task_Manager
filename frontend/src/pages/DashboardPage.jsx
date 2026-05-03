@@ -172,7 +172,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="divide-y divide-slate-50">
-            {stats.recentTasks.map((task) => {
+            {(stats?.recentTasks || []).map((task) => {
               const isOverdue = task.dueDate && isPast(new Date(task.dueDate)) && task.status !== 'done';
               return (
                 <div key={task._id} className="px-5 py-4 flex items-center gap-4 hover:bg-slate-50 transition-colors">
