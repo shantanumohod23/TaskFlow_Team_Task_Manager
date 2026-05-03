@@ -65,7 +65,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     api.get('/projects')
-      .then(({ data }) => setProjects(data))
+      .then(({ data }) => setProjects(Array.isArray(data) ? data : []))
       .catch(() => toast.error('Failed to load projects'))
       .finally(() => setLoading(false));
   }, []);
