@@ -149,7 +149,7 @@ npm run dev
 
 To create an admin account:
 
-* Enter the correct **Admin Secret** during signup
+* Enter the correct **Admin Secret** during signup (Shantanu_123)
 * Admin Secret is stored securely in backend environment variables
 
 ---
